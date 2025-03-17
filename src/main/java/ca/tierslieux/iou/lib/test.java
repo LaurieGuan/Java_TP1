@@ -22,12 +22,13 @@ public class test {
     }
 
     public static test getInstance(){
+        test inventory = null;
         if (!isInstanciated){
             throw new SingletonNotInstanciatedException("La liste n'a pas été instanciée.");
         } else {
-            
+            inventory = instance;
         }
-
+        return inventory;
     }
 
 }
