@@ -1,5 +1,4 @@
-package ca.tierslieux.iou.lib;
-import ca.tierslieux.iou.lib.exception.SingletonNotInstanciatedException;
+package ca.tierslieux.iou.lib.logic;
 
 public class test {
     private String name;
@@ -21,14 +20,19 @@ public class test {
         return returnCode;
     }
 
-    public static test getInstance(){
+    public static test getInstance() {
         test inventory = null;
-        if (!isInstanciated){
-            throw new SingletonNotInstanciatedException("La liste n'a pas été instanciée.");
-        } else {
+        if (isInstanciated){
             inventory = instance;
         }
         return inventory;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public static boolean isInstanciated() {
+        return isInstanciated;
+    }
 }

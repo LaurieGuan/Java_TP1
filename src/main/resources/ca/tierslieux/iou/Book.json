@@ -1,0 +1,16 @@
+{
+  "Book": {
+    "name": "Bilbo, The Hobbit",
+    "description": "Bilbo set off on an adventure.",
+    "price": 2000,
+    "purchaseDate": "2024-12-12",
+    "receipt": "C:\Users\6287054\facture.txt",
+    "location": "À la maison",
+    "status": "STORAGE",
+    "author": "Tolkien",
+    "publisher": "whatever",
+    "publishedYear": 1937,
+    "isbn": "12-1341-134-123",
+    "pathToImage": "C:\test"
+  }
+}
