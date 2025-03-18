@@ -33,8 +33,8 @@ public abstract class Item /*implements Json */{
         return description;
     }
 
-    public int getPrice() {
-        return price;
+    public float getPrice() {
+        return (float) price / 100f;
     }
 
     public LocalDate getPurchaseDate() {

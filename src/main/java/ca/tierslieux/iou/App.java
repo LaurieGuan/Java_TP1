@@ -31,6 +31,9 @@ public class App extends Application {
                 "  }\n" +
                 "}");
         System.out.println(test.getDescription());
+        System.out.println(test.getPrice());
+        System.out.println(test.getStatus());
+        System.out.println(test.getLocation());
 
         VBox vBox = new VBox(new Label("A JavaFX Label"));
         Scene scene = new Scene(vBox, 300, 300);

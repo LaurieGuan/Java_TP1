@@ -12,8 +12,8 @@ public class Regex {
 
 
     public static String attributeMatch(String text, String attributeName, MODE matchMode) {
-        String answer = "0";
-        String formattedString = String.format("(\"%s\": )((\"[0-9a-zA-ZÀ-ʯ ,.\\\\/:-]+\")?([0-9.]+)?)(,?)", attributeName);
+        String answer = "";
+        String formattedString = String.format("(\"%s\": )((\"[\\d\\wÀ-ʯ ,.\\\\/:-]+\")?([0-9.]+)?)(,?)", attributeName);
         Pattern p = Pattern.compile(formattedString);
         Matcher match = p.matcher(text);
         if (match.find()) {

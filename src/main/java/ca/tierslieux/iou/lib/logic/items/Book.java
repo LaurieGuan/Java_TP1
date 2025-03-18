@@ -65,12 +65,16 @@ public class Book extends Item {
         switch (tempStatusString) {
             case "STORAGE":
                 tempStatus = State.STORAGE;
+                break;
             case "STOLEN":
                 tempStatus = State.STOLEN;
+                break;
             case "LENT":
                 tempStatus = State.LENT;
+                break;
             case "BROKEN":
                 tempStatus = State.BROKEN;
+                break;
         }
 
         String tempAuthor = Regex.attributeMatch(json, "author", Regex.MODE.STRING);
