@@ -1,5 +1,6 @@
 package ca.tierslieux.iou.lib.logic.items;
 
+import ca.tierslieux.iou.lib.Regex;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import java.io.FileInputStream;
@@ -40,12 +41,7 @@ public class Book extends Item {
         }
     }
 
-    private static String attributeMatch(String text, String attributeName) {
-        String formattedString = String.format("(\"%s\": \"?)([0-9a-zA-ZÀ-ʯ ,.\\/:-]+)(\"?,?)", attributeName);
-        Pattern p = Pattern.compile(formattedString);
-        Matcher match = p.matcher(text);
-        return match.group(2);
-    }
+
 
     @Override
     public String toJson() {
@@ -53,18 +49,18 @@ public class Book extends Item {
     }
 
     public static Book fromJson(String json) {
-        String tempName = attributeMatch(json, "name");
-        String tempDescription = attributeMatch(json, "description");
+        String tempName = Regex.attributeMatch(json, "name", Regex.MODE.STRING);
+        String tempDescription = Regex.attributeMatch(json, "description", Regex.MODE.STRING);
 
-        String tempPriceString = attributeMatch(json, "price");
+        String tempPriceString = Regex.attributeMatch(json, "price", Regex.MODE.NUMBER);
         int tempPrice = Integer.parseInt(tempPriceString);
 
-        String tempPurchaseDateString = attributeMatch(json, "purchaseDate");
+        String tempPurchaseDateString = Regex.attributeMatch(json, "purchaseDate", Regex.MODE.STRING);
         LocalDate tempPurchaseDate = LocalDate.parse(tempPurchaseDateString, DateTimeFormatter.ISO_LOCAL_DATE);
-        String tempReceipt = attributeMatch(json, "receipt");
-        String tempLocation = attributeMatch(json, "location");
+        String tempReceipt = Regex.attributeMatch(json, "receipt", Regex.MODE.STRING);
+        String tempLocation = Regex.attributeMatch(json, "location", Regex.MODE.STRING);
 
-        String tempStatusString = attributeMatch(json, "status");
+        String tempStatusString = Regex.attributeMatch(json, "status", Regex.MODE.STRING);
         State tempStatus = null;
         switch (tempStatusString) {
             case "STORAGE":
@@ -77,12 +73,12 @@ public class Book extends Item {
                 tempStatus = State.BROKEN;
         }
 
-        String tempAuthor = attributeMatch(json, "author");
-        String tempPublisher = attributeMatch(json, "publisher");
-        String tempPublishedYearString = attributeMatch(json, "publishedYear");
+        String tempAuthor = Regex.attributeMatch(json, "author", Regex.MODE.STRING);
+        String tempPublisher = Regex.attributeMatch(json, "publisher", Regex.MODE.STRING);
+        String tempPublishedYearString = Regex.attributeMatch(json, "publishedYear", Regex.MODE.NUMBER);
         int tempPublishedYear = Integer.parseInt(tempPublishedYearString);
-        String tempIsbn = attributeMatch(json, "isbn");
-        String tempPathToImage = attributeMatch(json, "pathToImage");
+        String tempIsbn = Regex.attributeMatch(json, "isbn", Regex.MODE.STRING);
+        String tempPathToImage = Regex.attributeMatch(json, "pathToImage", Regex.MODE.STRING);
 
         return new Book(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
                 tempStatus, tempAuthor, tempPublisher, tempPublishedYear, tempIsbn, tempPathToImage);

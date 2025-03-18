@@ -4,7 +4,7 @@
     "description": "Bilbo set off on an adventure.",
     "price": 2000,
     "purchaseDate": "2024-12-12",
-    "receipt": "C:\Users\6287054\facture.txt",
+    "receipt": "C:\\Users\\6287054\\facture.txt",
     "location": "À la maison",
     "status": "STORAGE",
     "author": "Tolkien",
