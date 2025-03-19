@@ -4,14 +4,14 @@ import ca.tierslieux.iou.lib.logic.file.Json;
 
 import java.time.LocalDate;
 
-public abstract class Item /*implements Json */{
-    private String name;
-    private String description;
-    private int price;
-    private LocalDate purchaseDate;
-    private String receipt;
-    private String location;
-    private State status;
+public abstract class Item implements Json {
+    protected String name;
+    protected String description;
+    protected int price;
+    protected LocalDate purchaseDate;
+    protected String receipt;
+    protected String location;
+    protected State status;
 
     Item(String name, String description, int price, LocalDate purchaseDate, String pathToReceipt, String location, State status) {
         this.name = name;

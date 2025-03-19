@@ -30,10 +30,7 @@ public class App extends Application {
                 "    \"pathToImage\": \"C:\\test\"\n" +
                 "  }\n" +
                 "}");
-        System.out.println(test.getDescription());
-        System.out.println(test.getPrice());
-        System.out.println(test.getStatus());
-        System.out.println(test.getLocation());
+        System.out.println(test.toJson());
 
         VBox vBox = new VBox(new Label("A JavaFX Label"));
         Scene scene = new Scene(vBox, 300, 300);

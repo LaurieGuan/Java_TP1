@@ -5,6 +5,7 @@ public interface Json {
     public String toJson();
 
     // Cette méthode est censée prendre en paramètre une string Json, puis appeler le constructeur de la classe pour
-    // instancier l'objet.
-    public Object fromJson(String json);
+    // instancier l'objet. Puisqu'elle est statique, elle ne fait pas partie officiellement de l'interface,
+    // mais elle devrait s'y retrouver quand même.
+    /* public static Object fromJson(String json); */
 }

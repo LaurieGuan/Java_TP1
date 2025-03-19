@@ -1,4 +1,4 @@
-package ca.tierslieux.iou.lib;
+package ca.tierslieux.iou.lib.logic;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

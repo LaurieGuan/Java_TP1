@@ -1,14 +1,11 @@
 package ca.tierslieux.iou.lib.logic.items;
 
-import ca.tierslieux.iou.lib.Regex;
-import javafx.scene.Parent;
+import ca.tierslieux.iou.lib.logic.Regex;
 import javafx.scene.image.Image;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class Book extends Item {
@@ -41,11 +38,24 @@ public class Book extends Item {
         }
     }
 
-
-
     @Override
     public String toJson() {
-        return "";
+        String space = "        ";
+        return String.format("      \"Book\": {\n" +
+                        space + "\"name\": \"%s\",\n" +
+                        space + "\"description\": \"%s\",\n" +
+                        space + "\"price\": %s,\n" +
+                        space + "\"purchaseDate\": \"%s\",\n" +
+                        space + "\"receipt\": \"%s\",\n" +
+                        space + "\"location\": \"%s\",\n" +
+                        space + "\"status\": \"%s\",\n" +
+                        space + "\"author\": \"%s\",\n" +
+                        space + "\"publisher\": \"%s\",\n" +
+                        space + "\"publishedYear\": %d,\n" +
+                        space + "\"isbn\": \"%s\",\n" +
+                        space + "\"pathToImage\": \"%s\"\n" +
+                        "      }\n",
+                name, description, price, purchaseDate, receipt, location, status, author, publisher, publishedYear, isbn, pathToImage);
     }
 
     public static Book fromJson(String json) {
@@ -86,5 +96,21 @@ public class Book extends Item {
 
         return new Book(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
                 tempStatus, tempAuthor, tempPublisher, tempPublishedYear, tempIsbn, tempPathToImage);
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public int getPublishedYear() {
+        return publishedYear;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 }
