@@ -2,36 +2,36 @@ package ca.tierslieux.iou.lib.logic.items;
 
 import ca.tierslieux.iou.lib.logic.Regex;
 import javafx.scene.image.Image;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
-public class Book extends Item {
-    private String author;
+public class Game extends Item {
     private String publisher;
-    private int publishedYear;
-    private String isbn;
+    private int minimumAge;
+    private int minNumberPlayers;
+    private int maxNumberPlayers;
     private String pathToImage;
-    private Image bookCover = null;
+    private Image gameCover = null;
     private boolean imageFound;
 
-    Book(String name, String description, int price, LocalDate purchaseDate,
-         String pathToReceipt, String location, State status,
-         String author, String publisher, int publishedYear, String isbn, String pathToImage) {
 
+    public Game(String name, String description, int price, LocalDate purchaseDate,
+                String pathToReceipt, String location, State status,
+                String publisher, int minimumAge, int minNumberPlayers, int maxNumberPlayers, String pathToImage) {
         super(name, description, price, purchaseDate, pathToReceipt, location, status);
-        this.author = author;
         this.publisher = publisher;
-        this.publishedYear = publishedYear;
-        this.isbn = isbn;
+        this.minimumAge = minimumAge;
+        this.minNumberPlayers = minNumberPlayers;
+        this.maxNumberPlayers = maxNumberPlayers;
         this.pathToImage = pathToImage;
 
         FileInputStream rawImage = null;
         try {
             rawImage = new FileInputStream(pathToImage);
-            this.bookCover = new Image(rawImage);
+            this.gameCover = new Image(rawImage);
             this.imageFound = true;
         } catch (FileNotFoundException e) {
             this.imageFound = false;
@@ -41,7 +41,7 @@ public class Book extends Item {
     @Override
     public String toJson() {
         String space = "        ";
-        return String.format("      \"Book\": {\n" +
+        return String.format("      \"Game\": {\n" +
                         space + "\"name\": \"%s\",\n" +
                         space + "\"description\": \"%s\",\n" +
                         space + "\"price\": %s,\n" +
@@ -49,16 +49,16 @@ public class Book extends Item {
                         space + "\"receipt\": \"%s\",\n" +
                         space + "\"location\": \"%s\",\n" +
                         space + "\"status\": \"%s\",\n" +
-                        space + "\"author\": \"%s\",\n" +
                         space + "\"publisher\": \"%s\",\n" +
-                        space + "\"publishedYear\": %d,\n" +
-                        space + "\"isbn\": \"%s\",\n" +
+                        space + "\"minimumAge\": %d,\n" +
+                        space + "\"minNumberPlayers\": %d,\n" +
+                        space + "\"maxNumberPlayers\": %d,\n" +
                         space + "\"pathToImage\": \"%s\"\n" +
                         "      }\n",
-                name, description, price, purchaseDate, receipt, location, status, author, publisher, publishedYear, isbn, pathToImage);
+                name, description, price, purchaseDate, receipt, location, status, publisher, minimumAge, minNumberPlayers, maxNumberPlayers, pathToImage);
     }
 
-    public static Book fromJson(String json) {
+    public static Game fromJson(String json) {
         String tempName = Regex.attributeMatch(json, "name", Regex.MODE.STRING);
         String tempDescription = Regex.attributeMatch(json, "description", Regex.MODE.STRING);
 
@@ -87,34 +87,34 @@ public class Book extends Item {
                 break;
         }
 
-        String tempAuthor = Regex.attributeMatch(json, "author", Regex.MODE.STRING);
         String tempPublisher = Regex.attributeMatch(json, "publisher", Regex.MODE.STRING);
-        String tempPublishedYearString = Regex.attributeMatch(json, "publishedYear", Regex.MODE.NUMBER);
-        int tempPublishedYear = Integer.parseInt(tempPublishedYearString);
-        String tempIsbn = Regex.attributeMatch(json, "isbn", Regex.MODE.STRING);
+        String tempMinimumAgeString = Regex.attributeMatch(json, "minimumAge", Regex.MODE.NUMBER);
+        int tempMinimumAge = Integer.parseInt(tempMinimumAgeString);
+        String tempMinNumberPlayersString = Regex.attributeMatch(json, "minNumberPlayers", Regex.MODE.NUMBER);
+        int tempMinNumberPlayers = Integer.parseInt(tempMinNumberPlayersString);
+        String tempMaxNumberPlayersString = Regex.attributeMatch(json, "maxNumberPlayers", Regex.MODE.NUMBER);
+        int tempMaxNumberPlayers = Integer.parseInt(tempMaxNumberPlayersString);
         String tempPathToImage = Regex.attributeMatch(json, "pathToImage", Regex.MODE.STRING);
 
-        return new Book(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
-                tempStatus, tempAuthor, tempPublisher, tempPublishedYear, tempIsbn, tempPathToImage);
+        return new Game(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
+                tempStatus, tempPublisher, tempMinimumAge, tempMinNumberPlayers, tempMaxNumberPlayers, tempPathToImage);
     }
 
-    public String getAuthor() {
-        return author;
-    }
+
 
     public String getPublisher() {
         return publisher;
     }
 
-    public int getPublishedYear() {
-        return publishedYear;
+    public int getMinimumAge() {
+        return minimumAge;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public int getMinNumberPlayers() {
+        return minNumberPlayers;
     }
 
-    public Type getType() {
-        return Type.BOOK;
+    public int getMaxNumberPlayers() {
+        return maxNumberPlayers;
     }
 }

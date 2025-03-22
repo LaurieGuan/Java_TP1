@@ -1,7 +1,6 @@
 package ca.tierslieux.iou;
 
 import ca.tierslieux.iou.lib.logic.items.Book;
-import ca.tierslieux.iou.lib.logic.test;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
