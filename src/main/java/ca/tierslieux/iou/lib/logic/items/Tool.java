@@ -33,19 +33,24 @@ public class Tool extends Item {
                 name, description, price, purchaseDate, receipt, location, status, model, brand);
     }
 
-    public static Tool fromJson(String json) {
-        String tempName = Regex.attributeMatch(json, "name", Regex.MODE.STRING);
-        String tempDescription = Regex.attributeMatch(json, "description", Regex.MODE.STRING);
+    public String toCsv() {
+        return String.format("Tool;%s;%s;%s;%s;%s;%s;%s;%s;%s",
+                name, description, getFormattedPrice(), purchaseDate.toString(), receipt, location, status.toString(), model, brand);
+    }
 
-        String tempPriceString = Regex.attributeMatch(json, "price", Regex.MODE.NUMBER);
+    public static Tool fromJson(String json) {
+        String tempName = Regex.attributeMatch(json, "name", Regex.ATTRIBUTE_MODE.STRING);
+        String tempDescription = Regex.attributeMatch(json, "description", Regex.ATTRIBUTE_MODE.STRING);
+
+        String tempPriceString = Regex.attributeMatch(json, "price", Regex.ATTRIBUTE_MODE.NUMBER);
         int tempPrice = Integer.parseInt(tempPriceString);
 
-        String tempPurchaseDateString = Regex.attributeMatch(json, "purchaseDate", Regex.MODE.STRING);
+        String tempPurchaseDateString = Regex.attributeMatch(json, "purchaseDate", Regex.ATTRIBUTE_MODE.STRING);
         LocalDate tempPurchaseDate = LocalDate.parse(tempPurchaseDateString, DateTimeFormatter.ISO_LOCAL_DATE);
-        String tempReceipt = Regex.attributeMatch(json, "receipt", Regex.MODE.STRING);
-        String tempLocation = Regex.attributeMatch(json, "location", Regex.MODE.STRING);
+        String tempReceipt = Regex.attributeMatch(json, "receipt", Regex.ATTRIBUTE_MODE.STRING);
+        String tempLocation = Regex.attributeMatch(json, "location", Regex.ATTRIBUTE_MODE.STRING);
 
-        String tempStatusString = Regex.attributeMatch(json, "status", Regex.MODE.STRING);
+        String tempStatusString = Regex.attributeMatch(json, "status", Regex.ATTRIBUTE_MODE.STRING);
         State tempStatus = null;
         switch (tempStatusString) {
             case "STORAGE":
@@ -62,8 +67,8 @@ public class Tool extends Item {
                 break;
         }
 
-        String tempModel = Regex.attributeMatch(json, "model", Regex.MODE.STRING);
-        String tempBrand = Regex.attributeMatch(json, "brand", Regex.MODE.STRING);
+        String tempModel = Regex.attributeMatch(json, "model", Regex.ATTRIBUTE_MODE.STRING);
+        String tempBrand = Regex.attributeMatch(json, "brand", Regex.ATTRIBUTE_MODE.STRING);
 
         return new Tool(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
                 tempStatus, tempModel, tempBrand);

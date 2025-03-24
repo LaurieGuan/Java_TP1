@@ -24,6 +24,7 @@ public abstract class Item implements Json {
     }
 
     public abstract String toJson();
+    public abstract String toCsv();
 
     public String getName() {
         return name;
@@ -37,9 +38,17 @@ public abstract class Item implements Json {
         return (float) price / 100f;
     }
 
+    public String getFormattedPrice() {
+        String value = Integer.toString(price);
+        String prefix = value.substring(0, value.length() - 2);
+        String suffix = value.substring(value.length() - 2);
+        return String.format("%s,%s", prefix, suffix);
+    }
+
     public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
+
 
     public String getReceipt() {
         return receipt;

@@ -57,20 +57,25 @@ public class Game extends Item {
                         "      }\n",
                 name, description, price, purchaseDate, receipt, location, status, publisher, minimumAge, minNumberPlayers, maxNumberPlayers, pathToImage);
     }
+    public String toCsv() {
+        return String.format("Game;%s;%s;%s;%s;%s;%s;%s;%s;%d;%d;%d;%s",
+                name, description, getFormattedPrice(), purchaseDate.toString(), receipt, location, status.toString(),
+                publisher, minimumAge, minNumberPlayers, maxNumberPlayers, pathToImage);
+    }
 
     public static Game fromJson(String json) {
-        String tempName = Regex.attributeMatch(json, "name", Regex.MODE.STRING);
-        String tempDescription = Regex.attributeMatch(json, "description", Regex.MODE.STRING);
+        String tempName = Regex.attributeMatch(json, "name", Regex.ATTRIBUTE_MODE.STRING);
+        String tempDescription = Regex.attributeMatch(json, "description", Regex.ATTRIBUTE_MODE.STRING);
 
-        String tempPriceString = Regex.attributeMatch(json, "price", Regex.MODE.NUMBER);
+        String tempPriceString = Regex.attributeMatch(json, "price", Regex.ATTRIBUTE_MODE.NUMBER);
         int tempPrice = Integer.parseInt(tempPriceString);
 
-        String tempPurchaseDateString = Regex.attributeMatch(json, "purchaseDate", Regex.MODE.STRING);
+        String tempPurchaseDateString = Regex.attributeMatch(json, "purchaseDate", Regex.ATTRIBUTE_MODE.STRING);
         LocalDate tempPurchaseDate = LocalDate.parse(tempPurchaseDateString, DateTimeFormatter.ISO_LOCAL_DATE);
-        String tempReceipt = Regex.attributeMatch(json, "receipt", Regex.MODE.STRING);
-        String tempLocation = Regex.attributeMatch(json, "location", Regex.MODE.STRING);
+        String tempReceipt = Regex.attributeMatch(json, "receipt", Regex.ATTRIBUTE_MODE.STRING);
+        String tempLocation = Regex.attributeMatch(json, "location", Regex.ATTRIBUTE_MODE.STRING);
 
-        String tempStatusString = Regex.attributeMatch(json, "status", Regex.MODE.STRING);
+        String tempStatusString = Regex.attributeMatch(json, "status", Regex.ATTRIBUTE_MODE.STRING);
         State tempStatus = null;
         switch (tempStatusString) {
             case "STORAGE":
@@ -87,14 +92,14 @@ public class Game extends Item {
                 break;
         }
 
-        String tempPublisher = Regex.attributeMatch(json, "publisher", Regex.MODE.STRING);
-        String tempMinimumAgeString = Regex.attributeMatch(json, "minimumAge", Regex.MODE.NUMBER);
+        String tempPublisher = Regex.attributeMatch(json, "publisher", Regex.ATTRIBUTE_MODE.STRING);
+        String tempMinimumAgeString = Regex.attributeMatch(json, "minimumAge", Regex.ATTRIBUTE_MODE.NUMBER);
         int tempMinimumAge = Integer.parseInt(tempMinimumAgeString);
-        String tempMinNumberPlayersString = Regex.attributeMatch(json, "minNumberPlayers", Regex.MODE.NUMBER);
+        String tempMinNumberPlayersString = Regex.attributeMatch(json, "minNumberPlayers", Regex.ATTRIBUTE_MODE.NUMBER);
         int tempMinNumberPlayers = Integer.parseInt(tempMinNumberPlayersString);
-        String tempMaxNumberPlayersString = Regex.attributeMatch(json, "maxNumberPlayers", Regex.MODE.NUMBER);
+        String tempMaxNumberPlayersString = Regex.attributeMatch(json, "maxNumberPlayers", Regex.ATTRIBUTE_MODE.NUMBER);
         int tempMaxNumberPlayers = Integer.parseInt(tempMaxNumberPlayersString);
-        String tempPathToImage = Regex.attributeMatch(json, "pathToImage", Regex.MODE.STRING);
+        String tempPathToImage = Regex.attributeMatch(json, "pathToImage", Regex.ATTRIBUTE_MODE.STRING);
 
         return new Game(tempName, tempDescription, tempPrice, tempPurchaseDate, tempReceipt, tempLocation,
                 tempStatus, tempPublisher, tempMinimumAge, tempMinNumberPlayers, tempMaxNumberPlayers, tempPathToImage);
