@@ -81,4 +81,8 @@ public class Tool extends Item {
     public String getBrand() {
         return brand;
     }
+
+    public Type getType() {
+        return Type.TOOL;
+    }
 }

@@ -105,8 +105,6 @@ public class Game extends Item {
                 tempStatus, tempPublisher, tempMinimumAge, tempMinNumberPlayers, tempMaxNumberPlayers, tempPathToImage);
     }
 
-
-
     public String getPublisher() {
         return publisher;
     }
@@ -121,5 +119,9 @@ public class Game extends Item {
 
     public int getMaxNumberPlayers() {
         return maxNumberPlayers;
+    }
+
+    public Type getType() {
+        return Type.GAME;
     }
 }

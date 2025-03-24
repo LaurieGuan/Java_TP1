@@ -1,6 +1,8 @@
 package ca.tierslieux.iou;
 
 import ca.tierslieux.iou.lib.logic.items.Item;
+import ca.tierslieux.iou.lib.logic.list.Inventory;
+import ca.tierslieux.iou.lib.view.Table;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,24 +22,16 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        // Create an ObservableList to hold the data
-        ObservableList<Item> people = FXCollections.observableArrayList(
-                new Item("John", "Doe", 25),
-                new Item("Jane", "Smith", 30),
-                new Item("Emily", "Johnson", 35)
-        );
+        Inventory.createInstanceFromFile("src/main/resources/ca/tierslieux/iou/TestListe.json");
+        Inventory inv = Inventory.getInstance();
 
-        // Bind the data to the table
-        tableView.setItems(people);
-
-        // Create a layout and add the TableView
-        VBox vbox = new VBox(tableView);
+        VBox vbox = new VBox(Table.getTableView(inv.getItems()));
 
         // Set up the scene and stage
         Scene scene = new Scene(vbox);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("JavaFX TableView Example");
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setTitle("JavaFX TableView Example");
+        stage.show();
     }
 
     public static void main(String[] args) {

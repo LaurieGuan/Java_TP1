@@ -48,7 +48,9 @@ public abstract class Item implements Json {
     public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
-
+    public String getPurchaseDateString() {
+        return purchaseDate.toString();
+    }
 
     public String getReceipt() {
         return receipt;
@@ -64,10 +66,12 @@ public abstract class Item implements Json {
 
     public String getStatusString() {
         return switch (status) {
-            case STOLEN -> "Volé"
-            case STORAGE -> "En ma possession"
-            case LENT -> "Prêté"
-            case BROKEN -> "Brisé"
-        }
+            case STOLEN -> "Volé";
+            case STORAGE -> "En ma possession";
+            case LENT -> "Prêté";
+            case BROKEN -> "Brisé";
+        };
     }
+
+    public abstract Type getType();
 }
