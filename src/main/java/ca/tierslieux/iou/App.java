@@ -7,10 +7,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -25,7 +22,10 @@ public class App extends Application {
         Inventory.createInstanceFromFile("src/main/resources/ca/tierslieux/iou/TestListe.json");
         Inventory inv = Inventory.getInstance();
 
-        VBox vbox = new VBox(Table.getTableView(inv.getItems()));
+        VBox vbox = new VBox();
+
+        Button button = new Button("RemoveItem");
+        TableView<Item> table = Table.getTableView(inv.getItems());
 
         // Set up the scene and stage
         Scene scene = new Scene(vbox);

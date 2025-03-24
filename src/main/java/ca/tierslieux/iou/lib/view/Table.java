@@ -11,32 +11,39 @@ import javafx.scene.control.Label;
 import java.time.LocalDate;
 
 public class Table {
+    private static TableView<Item> table;
+    private static ObservableList<Item> observableList;
     public static TableView<Item> getTableView(Item[] items) {
-        TableView<Item> tableView = new TableView<>();
-        tableView.setPlaceholder(new Label("Aucun contenu dans la table."));
+        table = new TableView<>();
+        table.setPlaceholder(new Label("Aucun contenu dans la table."));
 
         TableColumn<Item, String> description = new TableColumn<>("Description");
-        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-
         TableColumn<Item, String> state = new TableColumn<>("État");
-        state.setCellValueFactory(new PropertyValueFactory<>("StatusString"));
-
         TableColumn<Item, LocalDate> purchaseDate = new TableColumn<>("Date d'achat");
+        TableColumn<Item, Float> price = new TableColumn<>("Prix");
+
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        state.setCellValueFactory(new PropertyValueFactory<>("StatusString"));
         purchaseDate.setCellValueFactory(new PropertyValueFactory<>("purchaseDate"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableColumn<Item, Integer> price = new TableColumn<>("Prix");
-        price.setCellValueFactory(new PropertyValueFactory<>("formattedPrice"));
+        table.getColumns().addAll(description, state, purchaseDate, price);
 
-        tableView.getColumns().addAll(description, state, purchaseDate, price);
-
-        ObservableList<Item> observableList = FXCollections.observableArrayList();
+         observableList = FXCollections.observableArrayList();
 
         for (Item item: items) {
             observableList.add(item);
         }
 
-        tableView.setItems(observableList);
+        table.setItems(observableList);
 
-        return tableView;
+        return table;
+    }
+
+    public void resetItemsList(Item[] items) {
+        observableList = FXCollections.observableArrayList();
+        for (Item item: items) {
+            observableList.add(item);
+        }
     }
 }
