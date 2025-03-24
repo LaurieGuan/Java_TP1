@@ -13,7 +13,7 @@ public abstract class Item implements Json {
     protected String location;
     protected State status;
 
-    Item(String name, String description, int price, LocalDate purchaseDate, String pathToReceipt, String location, State status) {
+    public Item(String name, String description, int price, LocalDate purchaseDate, String pathToReceipt, String location, State status) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -42,7 +42,7 @@ public abstract class Item implements Json {
         String value = Integer.toString(price);
         String prefix = value.substring(0, value.length() - 2);
         String suffix = value.substring(value.length() - 2);
-        return String.format("%s,%s", prefix, suffix);
+        return String.format("%s,%s$", prefix, suffix);
     }
 
     public LocalDate getPurchaseDate() {
@@ -60,5 +60,14 @@ public abstract class Item implements Json {
 
     public State getStatus() {
         return status;
+    }
+
+    public String getStatusString() {
+        return switch (status) {
+            case STOLEN -> "Volé"
+            case STORAGE -> "En ma possession"
+            case LENT -> "Prêté"
+            case BROKEN -> "Brisé"
+        }
     }
 }

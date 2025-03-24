@@ -2,6 +2,7 @@ package ca.tierslieux.iou.lib.logic.list;
 
 import ca.tierslieux.iou.lib.logic.Regex;
 import ca.tierslieux.iou.lib.logic.exception.FileAlreadyExists;
+import ca.tierslieux.iou.lib.logic.exception.ItemNotFound;
 import ca.tierslieux.iou.lib.logic.exception.ListNotSaved;
 import ca.tierslieux.iou.lib.logic.exception.PathNotSpecified;
 import ca.tierslieux.iou.lib.logic.file.CustomFile;
@@ -106,7 +107,7 @@ public class Inventory implements Json {
             list.remove(item);
             restoreList.add(item);
             modified = true;
-        } catch (ListNotSaved e) {
+        } catch (ItemNotFound e) {
             System.err.println("L'élément donné ne fait pas partie de la liste. Il ne sera pas retiré de la liste.");
         }
     }

@@ -17,9 +17,9 @@ public class Book extends Item {
     private Image bookCover = null;
     private boolean imageFound;
 
-    Book(String name, String description, int price, LocalDate purchaseDate,
-         String pathToReceipt, String location, State status,
-         String author, String publisher, int publishedYear, String isbn, String pathToImage) {
+    public Book(String name, String description, int price, LocalDate purchaseDate,
+                String pathToReceipt, String location, State status,
+                String author, String publisher, int publishedYear, String isbn, String pathToImage) {
 
         super(name, description, price, purchaseDate, pathToReceipt, location, status);
         this.author = author;

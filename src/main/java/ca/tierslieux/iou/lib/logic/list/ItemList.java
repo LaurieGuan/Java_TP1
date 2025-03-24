@@ -1,5 +1,6 @@
 package ca.tierslieux.iou.lib.logic.list;
 
+import ca.tierslieux.iou.lib.logic.exception.ItemNotFound;
 import ca.tierslieux.iou.lib.logic.exception.ListNotSaved;
 import ca.tierslieux.iou.lib.logic.items.Item;
 
@@ -68,10 +69,11 @@ public class ItemList {
             for (int i = 0; i < position; i++) {
                 arrayTemp[i] = array[i];
             }
-            arrayTemp[position] = array[position];
+            arrayTemp[position] = item;
             for (int i = position + 1; i < arrayLength; i++) {
-                arrayTemp[i] = array[i];
+                arrayTemp[i] = array[i - 1];
             }
+            array = arrayTemp;
         }
     }
 
@@ -129,7 +131,7 @@ public class ItemList {
                 array = tempArray;
             }
         } else {
-            throw new ListNotSaved();
+            throw new ItemNotFound();
         }
     }
 }

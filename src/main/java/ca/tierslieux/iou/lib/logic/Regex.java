@@ -26,6 +26,7 @@ public class Regex {
         return answer;
     }
 
+
     public static String listNameMatch(String text) {
         String answer = "";
         String listPattern = "\\\"(\\w+)\\\": \\[[\\t\\n\\r [\\w+À-ʯ\\\\\\-.\\\":{},\\n\\t\\r ]+]";
@@ -73,5 +74,12 @@ public class Regex {
         }
 
         return answer;
+    }
+
+    public static boolean descriptionMatch(String text, String keyword) {
+        String answer = "";
+        Pattern p = Pattern.compile(keyword);
+        Matcher match = p.matcher(text);
+        return match.find();
     }
 }

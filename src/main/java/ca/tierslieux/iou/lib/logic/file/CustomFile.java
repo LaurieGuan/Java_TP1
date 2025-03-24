@@ -2,8 +2,6 @@ package ca.tierslieux.iou.lib.logic.file;
 
 import ca.tierslieux.iou.lib.logic.exception.FileAlreadyExists;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class CustomFile {
     private BufferedWriter writer = null;
@@ -54,14 +52,14 @@ public class CustomFile {
     private BufferedWriter getWriter(boolean append) {
         File file = new File(filePath);
         try {
-            // Create parent directories if they don't exist
             if (!file.exists()) {
-                file.getParentFile().mkdirs();  // Create parent directories if needed
-                file.createNewFile();           // Create the file itself
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
+
             writer = new BufferedWriter(new FileWriter(filePath, append));
         } catch (IOException e) {
-            System.err.println("Failed to create or open file for writing: " + filePath);
+            System.err.println("Le fichier n'a pas pu être ouvert pour l'écriture: " + filePath);
         }
         return writer;
     }
@@ -102,13 +100,13 @@ public class CustomFile {
         if (bufferedWriter != null) {
             try {
                 bufferedWriter.write(text);
-                bufferedWriter.newLine();  // Write new line after each write (optional)
+                bufferedWriter.newLine();
             } catch (IOException e) {
                 System.err.println("Il y eu une erreur d'écriture de fichier: " + filePath);
             } finally {
                 try {
-                    bufferedWriter.close();  // Close after writing to avoid locking the file
-                    writer = null;  // Reset writer for the next call
+                    bufferedWriter.close();
+                    writer = null;
                 } catch (IOException e) {
                     System.err.println("Il n'a pas été possible de fermer le fichier en écriture.");
                 }
