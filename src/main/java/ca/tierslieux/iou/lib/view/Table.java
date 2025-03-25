@@ -12,38 +12,77 @@ import java.time.LocalDate;
 
 public class Table {
     private static TableView<Item> table;
+    private static TableView<Item> tableRestore;
     private static ObservableList<Item> observableList;
-    public static TableView<Item> getTableView(Item[] items) {
-        table = new TableView<>();
-        table.setPlaceholder(new Label("Aucun contenu dans la table."));
+    private static ObservableList<Item> observableListRestore;
+
+    public enum ListType {
+        MAIN_LIST,
+        RESTORE
+    }
+
+    public static TableView<Item> getTableView(Item[] items, ListType listType) {
+
+        TableView<Item> tempTable;
+        ObservableList<Item> tempList;
+        tempTable = new TableView<>();
+        tempTable.setPlaceholder(new Label("Aucun contenu dans la table."));
 
         TableColumn<Item, String> description = new TableColumn<>("Description");
+        description.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.45));
+        description.setResizable(false);
+        description.setReorderable(false);
         TableColumn<Item, String> state = new TableColumn<>("État");
+        state.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.25));
+        state.setResizable(false);
+        state.setReorderable(false);
         TableColumn<Item, LocalDate> purchaseDate = new TableColumn<>("Date d'achat");
+        purchaseDate.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
+        purchaseDate.setResizable(false);
+        purchaseDate.setReorderable(false);
         TableColumn<Item, Float> price = new TableColumn<>("Prix");
+        price.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
+        price.setResizable(false);
+        price.setReorderable(false);
 
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         state.setCellValueFactory(new PropertyValueFactory<>("StatusString"));
         purchaseDate.setCellValueFactory(new PropertyValueFactory<>("purchaseDate"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        table.getColumns().addAll(description, state, purchaseDate, price);
+        tempTable.getColumns().addAll(description, state, purchaseDate, price);
 
-         observableList = FXCollections.observableArrayList();
+         tempList = FXCollections.observableArrayList();
 
+        for (Item item: items) {
+            tempList.add(item);
+        }
+
+        tempTable.setItems(tempList);
+        tempTable.setId("mainList");
+
+        switch (listType) {
+            case MAIN_LIST:
+                table = tempTable;
+                observableList = tempList;
+                break;
+            case RESTORE:
+                tableRestore = tempTable;
+                observableListRestore = tempList ;
+                break;
+        }
+
+        return tempTable;
+    }
+
+    public void resetItemsList(Item[] items, Item[] restoreItems) {
+        observableList = FXCollections.observableArrayList();
+        observableListRestore = FXCollections.observableArrayList();
         for (Item item: items) {
             observableList.add(item);
         }
-
-        table.setItems(observableList);
-
-        return table;
-    }
-
-    public void resetItemsList(Item[] items) {
-        observableList = FXCollections.observableArrayList();
-        for (Item item: items) {
-            observableList.add(item);
+        for (Item item: restoreItems) {
+            observableListRestore.add(item);
         }
     }
 }

@@ -76,8 +76,7 @@ public class Regex {
         return answer;
     }
 
-    public static boolean descriptionMatch(String text, String keyword) {
-        String answer = "";
+    public static boolean inputValid(String text, String keyword) {
         Pattern p = Pattern.compile(keyword);
         Matcher match = p.matcher(text);
         return match.find();

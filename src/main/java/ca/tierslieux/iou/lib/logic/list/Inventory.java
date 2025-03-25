@@ -88,6 +88,20 @@ public class Inventory implements Json {
         return list.getItemList();
     }
 
+    public Item[] getRestoreItems() {
+        return restoreList.getItemList();
+    }
+
+    public Item getRestoreItem(int postion) {
+        Item item = null;
+        try {
+            item = restoreList.getItem(postion);
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("La position donnée est à l'extérieur des limites de la listes. La méthode ne retournera aucun item.");
+        }
+        return item;
+    }
+
     public String getListName() {
         return listName;
     }
@@ -103,6 +117,7 @@ public class Inventory implements Json {
     }
 
     public void remove(Item item) {
+
         try {
             list.remove(item);
             restoreList.add(item);

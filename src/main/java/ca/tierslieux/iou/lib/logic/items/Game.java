@@ -124,4 +124,25 @@ public class Game extends Item {
     public Type getType() {
         return Type.GAME;
     }
+
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setMinimumAge(int minimumAge) {
+        this.minimumAge = minimumAge;
+    }
+
+    public void setMinNumberPlayers(int minNumberPlayers) {
+        this.minNumberPlayers = minNumberPlayers;
+    }
+
+    public void setMaxNumberPlayers(int maxNumberPlayers) {
+        this.maxNumberPlayers = maxNumberPlayers;
+    }
+
+    public void setPathToImage(String pathToImage) {
+        this.pathToImage = pathToImage;
+    }
 }

@@ -65,13 +65,36 @@ public abstract class Item implements Json {
     }
 
     public String getStatusString() {
-        return switch (status) {
-            case STOLEN -> "Volé";
-            case STORAGE -> "En ma possession";
-            case LENT -> "Prêté";
-            case BROKEN -> "Brisé";
-        };
+        return State.getStatusString(status);
+    }
+    public abstract Type getType();
+
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public abstract Type getType();
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public void setPathToReceipt(String pathToReceipt) {
+        this.receipt = receipt;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setStatus(State status) {
+        this.status = status;
+    }
 }
