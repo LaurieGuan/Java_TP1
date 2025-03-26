@@ -1,6 +1,7 @@
 module ca.tierslieux.iou {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens ca.tierslieux.iou to javafx.fxml;

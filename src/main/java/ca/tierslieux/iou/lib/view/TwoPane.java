@@ -1,45 +1,68 @@
 package ca.tierslieux.iou.lib.view;
 
-import ca.tierslieux.iou.lib.logic.items.Book;
-import ca.tierslieux.iou.lib.logic.items.Game;
-import ca.tierslieux.iou.lib.logic.items.Item;
-import ca.tierslieux.iou.lib.logic.items.Tool;
+import ca.tierslieux.iou.lib.logic.items.*;
 import ca.tierslieux.iou.lib.logic.list.Inventory;
 import javafx.scene.Node;
-import javafx.scene.control.Separator;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class TwoPane {
+    private static VBox itemView;
 
-    public static HBox GeneratePanel(Item[] items, Item[] restoreItems) {
+    public static void GeneratePanel(HBox panel, Item[] items, Item[] restoreItems) {
         TabPane listView = TabListView.getTabListView(items, restoreItems);
         Separator separator = new Separator();
-        VBox itemView = new VBox();
+        itemView = new VBox();
 
-        Inventory inv = Inventory.getInstance();
+        panel.getChildren().addAll(listView, separator, itemView);
+        listView.prefWidthProperty().bind(panel.widthProperty().multiply(0.65));
+        HBox.setHgrow(itemView, Priority.ALWAYS);
+    }
 
-        Item item = inv.getItem(0);
+    public static void showItem(Item item) {
+
+        itemView.getChildren().removeAll(itemView.getChildren());
 
         if (item instanceof Game) {
             Game game = (Game)item;
-            GameView.modify(game, itemView);
+            GameView.view(game, itemView);
         } else if (item instanceof Book) {
             Book book = (Book)item;
-            BookView.modify(book, itemView);
+            BookView.view(book, itemView);
         } else if (item instanceof Tool) {
-        Tool tool = (Tool)item;
-        ToolView.modify(tool, itemView);
+            Tool tool = (Tool) item;
+            ToolView.view(tool, itemView);
+        }
     }
 
-        HBox twoPane = new HBox(listView, separator, itemView);
-        listView.prefWidthProperty().bind(twoPane.widthProperty().multiply(0.65));
-        HBox.setHgrow(itemView, Priority.ALWAYS);
+    public static void addItem() {
+        Label typeLabel = new Label("Type d'objet:");
+        ComboBox<String> typeComboBox = new ComboBox<>();
+        typeComboBox.getItems().addAll(
+                Type.getTypeString(Type.GAME),
+                Type.getTypeString(Type.BOOK),
+                Type.getTypeString(Type.TOOL)
+        );
+        typeComboBox.setValue("Jeu");
+        HBox stateBox = new HBox(typeLabel, typeComboBox);
+        stateBox.setPrefWidth(200);
 
-        return twoPane;
+        typeComboBox.setOnAction(actionEvent -> {
+            if (typeComboBox.getValue() == "Jeu") {
+                GameView.add(itemView);
+            } else if (typeComboBox.getValue() == "Livre") {
+                BookView.add(itemView);
+            } else if (typeComboBox.getValue() == "Outil") {
+                ToolView.add(itemView);
+            }
+            typeComboBox.setDisable(true);
+        });
+
+        itemView.getChildren().removeAll(itemView.getChildren());
+        System.out.println("Fudge");
+        itemView.getChildren().addAll(typeLabel, typeComboBox);
     }
 }

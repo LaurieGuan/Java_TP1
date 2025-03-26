@@ -24,9 +24,13 @@ public class ToolView {
         setHBoxPreferences(brandBox, brandLabel, brandField);
         brandField.setEditable(false);
 
+        Button modButton = new Button("Modifier");
+        HBox buttonBox = new HBox(modButton);
+        buttonBox.setSpacing(10);
+
         VBox vbox = new VBox(
                 toolSectionLabel,
-                modelBox, brandBox
+                modelBox, brandBox, modButton
         );
 
         vbox.setSpacing(10);

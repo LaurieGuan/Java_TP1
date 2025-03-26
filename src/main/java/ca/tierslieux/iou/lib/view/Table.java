@@ -15,6 +15,8 @@ public class Table {
     private static TableView<Item> tableRestore;
     private static ObservableList<Item> observableList;
     private static ObservableList<Item> observableListRestore;
+    private static Item selectedItem = null;
+    private static Item selectedItemRestore = null;
 
     public enum ListType {
         MAIN_LIST,
@@ -79,11 +81,21 @@ public class Table {
                 observableListRestore = tempList ;
                 break;
         }
+        tempTable.getSelectionModel().selectedItemProperty().addListener((
+                observable, _, newValue) -> {
+            if (newValue != null && listType == listType.MAIN_LIST) {
+                selectedItem = newValue;
+            } else if (newValue != null && listType == listType.RESTORE) {
+                selectedItemRestore = newValue;
+            }
+
+            TwoPane.showItem(selectedItem);
+        });
 
         return tempTable;
     }
 
-    public void resetItemsList(Item[] items, Item[] restoreItems) {
+    public static void resetItemsList(Item[] items, Item[] restoreItems) {
         observableList = FXCollections.observableArrayList();
         observableListRestore = FXCollections.observableArrayList();
         for (Item item: items) {
@@ -92,5 +104,21 @@ public class Table {
         for (Item item: restoreItems) {
             observableListRestore.add(item);
         }
+
+        table.setItems(observableList);
+        tableRestore.setItems(observableListRestore);
+    }
+
+    public static Item getSelectedItem() {
+        return selectedItem;
+    }
+
+    public static Item getSelectedItemRestore() {
+        return selectedItemRestore;
+    }
+
+    public static void resetSelectedItems() {
+        selectedItemRestore = null;
+        selectedItem = null;
     }
 }

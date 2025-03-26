@@ -143,6 +143,11 @@ public class Inventory implements Json {
         }
     }
 
+    public void restore(Item item) {
+        restoreList.remove(item);
+        list.add(item);
+    }
+
     public Item getItem(int position) {
         Item item = null;
         try {

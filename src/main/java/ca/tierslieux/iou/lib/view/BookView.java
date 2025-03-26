@@ -34,11 +34,16 @@ public class BookView {
         TextField isbnField = new TextField(book.getIsbn());
         HBox isbnBox = new HBox(isbnLabel, isbnField);
         setHBoxPreferences(isbnBox, isbnLabel, isbnField);
-        isbnField.setEditable(false);
+        isbnField.setDisable(true);
+
+        Button modButton = new Button("Modifier");
+        HBox buttonBox = new HBox(modButton);
+        buttonBox.setSpacing(10);
 
         VBox vbox = new VBox(
                 bookSectionLabel,
-                authorBox, publisherBox, publishedYearBox, isbnBox
+                authorBox, publisherBox, publishedYearBox, isbnBox,
+                modButton
         );
 
         vbox.setSpacing(10);
@@ -48,7 +53,7 @@ public class BookView {
         return vBox;
     }
 
-    public static VBox add(VBox vBox) {
+    public static void add(VBox vBox) {
         VBox generalSection = ItemCommonView.add();
 
         Label bookSectionLabel = new Label("Section livre");
@@ -90,9 +95,7 @@ public class BookView {
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(10));
 
-        vBox.getChildren().removeAll();
         vBox.getChildren().addAll(generalSection, vbox);
-        return vBox;
     }
 
     public static VBox modify(Book book, VBox vBox) {
