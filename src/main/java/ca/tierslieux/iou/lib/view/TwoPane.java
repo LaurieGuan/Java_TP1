@@ -1,6 +1,9 @@
 package ca.tierslieux.iou.lib.view;
 
+import ca.tierslieux.iou.lib.logic.items.Book;
+import ca.tierslieux.iou.lib.logic.items.Game;
 import ca.tierslieux.iou.lib.logic.items.Item;
+import ca.tierslieux.iou.lib.logic.items.Tool;
 import ca.tierslieux.iou.lib.logic.list.Inventory;
 import javafx.scene.Node;
 import javafx.scene.control.Separator;
@@ -20,10 +23,21 @@ public class TwoPane {
 
         Inventory inv = Inventory.getInstance();
 
-        itemView = GameView.view(inv.getItem(0));
+        Item item = inv.getItem(0);
+
+        if (item instanceof Game) {
+            Game game = (Game)item;
+            GameView.modify(game, itemView);
+        } else if (item instanceof Book) {
+            Book book = (Book)item;
+            BookView.modify(book, itemView);
+        } else if (item instanceof Tool) {
+        Tool tool = (Tool)item;
+        ToolView.modify(tool, itemView);
+    }
 
         HBox twoPane = new HBox(listView, separator, itemView);
-        listView.prefWidthProperty().bind(twoPane.widthProperty().multiply(0.5));
+        listView.prefWidthProperty().bind(twoPane.widthProperty().multiply(0.65));
         HBox.setHgrow(itemView, Priority.ALWAYS);
 
         return twoPane;

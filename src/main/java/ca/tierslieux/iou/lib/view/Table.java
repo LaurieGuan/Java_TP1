@@ -28,29 +28,37 @@ public class Table {
         tempTable = new TableView<>();
         tempTable.setPlaceholder(new Label("Aucun contenu dans la table."));
 
+        TableColumn<Item, String> name = new TableColumn<>("Name");
+        name.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
+        name.setResizable(false);
+        name.setReorderable(false);
+
         TableColumn<Item, String> description = new TableColumn<>("Description");
-        description.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.45));
-        description.setResizable(false);
+        description.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.40));
         description.setReorderable(false);
+
         TableColumn<Item, String> state = new TableColumn<>("État");
-        state.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.25));
+        state.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
         state.setResizable(false);
         state.setReorderable(false);
+
         TableColumn<Item, LocalDate> purchaseDate = new TableColumn<>("Date d'achat");
         purchaseDate.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
         purchaseDate.setResizable(false);
         purchaseDate.setReorderable(false);
+
         TableColumn<Item, Float> price = new TableColumn<>("Prix");
         price.prefWidthProperty().bind(tempTable.widthProperty().multiply(0.15));
         price.setResizable(false);
         price.setReorderable(false);
 
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         state.setCellValueFactory(new PropertyValueFactory<>("StatusString"));
         purchaseDate.setCellValueFactory(new PropertyValueFactory<>("purchaseDate"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        tempTable.getColumns().addAll(description, state, purchaseDate, price);
+        tempTable.getColumns().addAll(name, description, state, purchaseDate, price);
 
          tempList = FXCollections.observableArrayList();
 

@@ -85,6 +85,7 @@ public class Inventory implements Json {
     }
 
     public Item[] getItems() {
+        ItemList tempList;
         return list.getItemList();
     }
 
@@ -163,7 +164,10 @@ public class Inventory implements Json {
 
     }
 
-    public void saveAs(String path, boolean force) throws FileAlreadyExists {
+    public void saveAs(String name, String path, boolean force) throws FileAlreadyExists {
+        if (name == "") {
+            name = this.listName;
+        }
         try {
             this.file = CustomFile.saveAtFromText(path, toJson(), FileType.JSON);
             this.path = path;
@@ -176,9 +180,12 @@ public class Inventory implements Json {
         }
     }
 
-    public void saveAs(String path) throws FileAlreadyExists {
+    public void saveAs(String name, String path) throws FileAlreadyExists {
+        if (name == "") {
+            name = this.listName;
+        }
         try {
-            saveAs(path, false);
+            saveAs(name, path, false);
         } catch (FileAlreadyExists e) {
             throw new FileAlreadyExists();
         }
