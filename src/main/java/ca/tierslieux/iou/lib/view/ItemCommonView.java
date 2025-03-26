@@ -20,11 +20,10 @@ public class ItemCommonView {
         setHBoxPreferences(nameBox, nameL, nameF);
 
         Label descLabel = new Label("Courte description:");
-        TextField descF = new TextField();
+        TextField descF = new TextField(item.getDescription());
         HBox descBox = new HBox(descLabel, descF);
         descF.setEditable(false);
         setHBoxPreferences(descBox, descLabel, descF);
-        descF.setEditable(false);
 
         Label priceL = new Label("Prix:");
         TextField priceF = new TextField(item.getFormattedPrice());
@@ -139,26 +138,32 @@ public class ItemCommonView {
         TextField nameField = new TextField(item.getName());
         HBox nameBox = new HBox(nameLabel, nameField);
         setHBoxPreferences(nameBox, nameLabel, nameField);
+        nameField.setId("name");
 
-        Label descLabel = new Label("Nom:");
+        Label descLabel = new Label("Courte description:");
         TextField descField = new TextField(item.getDescription());
         HBox descBox = new HBox(descLabel, descField);
         setHBoxPreferences(descBox, descLabel, descField);
+        descField.setId("description");
 
         Label priceLabel = new Label("Prix:");
         TextField priceField = new TextField(item.getFormattedPrice());
         HBox priceBox = new HBox(priceLabel, priceField);
         setHBoxPreferences(priceBox, priceLabel, priceField);
+        priceBox.setId("price");
 
         Label purchaseDateLabel = new Label("Date d'achat:");
         DatePicker purchaseDatePicker = new DatePicker(item.getPurchaseDate());
         HBox purchaseDateBox = new HBox(purchaseDateLabel, purchaseDatePicker);
         setHBoxPreferences(purchaseDateBox, purchaseDateLabel, purchaseDatePicker);
+        purchaseDatePicker.setId("datePicker");
 
         Label receiptImageLabel = new Label("Image facture:");
         TextField receiptImageField = new TextField(item.getReceipt());
         HBox receiptImageBox = new HBox(receiptImageLabel, receiptImageField);
         setHBoxPreferences(receiptImageBox, receiptImageLabel, receiptImageField);
+        receiptImageField.setId("imageReceipt");
+
 
         Label stateLabel = new Label("État:");
         ComboBox<String> stateComboBox = new ComboBox<>();
@@ -171,11 +176,13 @@ public class ItemCommonView {
         stateComboBox.setValue(item.getStatusString());
         HBox stateBox = new HBox(stateLabel, stateComboBox);
         setHBoxPreferences(stateBox, stateLabel, stateComboBox);
+        stateComboBox.setId("stateBox");
 
         Label locationLabel = new Label("Emplacement:");
         TextField locationField = new TextField(item.getLocation());
         HBox locationBox = new HBox(locationLabel, locationField);
         setHBoxPreferences(locationBox, locationLabel, locationField);
+        locationField.setId("location");
 
         VBox vbox = new VBox(
                 titleLabel,
@@ -194,5 +201,4 @@ public class ItemCommonView {
         label.setPrefWidth(150);
         field.setPrefWidth(200);
     }
-
 }

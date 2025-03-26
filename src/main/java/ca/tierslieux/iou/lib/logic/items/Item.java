@@ -3,6 +3,8 @@ package ca.tierslieux.iou.lib.logic.items;
 import ca.tierslieux.iou.lib.logic.file.Json;
 
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Item implements Json {
     protected String name;
@@ -80,6 +82,27 @@ public abstract class Item implements Json {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setFormattedPrice(String price) {
+        int intPrice = 0;
+        String listPattern = "^\\b(\\d+)(,|\\.)?(\\d{0,2})\\$?$";
+        Pattern p = Pattern.compile(listPattern);
+        Matcher match = p.matcher(price);
+
+        if (match.find()) {
+            String prefix = match.group(1);
+            int prefixInt = Integer.parseInt(prefix);
+            intPrice += prefixInt * 100;
+
+            String suffix = match.group(3);
+            if (suffix != null && !suffix.equals("")) {
+                int suffixInt = Integer.parseInt(suffix);
+                intPrice += suffixInt;
+            }
+        }
+
+        this.price = intPrice;
     }
 
     public void setPurchaseDate(LocalDate purchaseDate) {

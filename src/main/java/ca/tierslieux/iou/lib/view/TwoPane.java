@@ -22,6 +22,23 @@ public class TwoPane {
         HBox.setHgrow(itemView, Priority.ALWAYS);
     }
 
+    public static void modifyItem(Item item) {
+        itemView.getChildren().removeAll(itemView.getChildren());
+        switch (item.getType()) {
+            case BOOK:
+                BookView.modify((Book) item, itemView);
+                break;
+            case GAME:
+                GameView.modify((Game) item, itemView);
+                break;
+            case TOOL:
+                ToolView.modify((Tool) item, itemView);
+                break;
+        }
+
+        Inventory.getInstance().isBeingModified = true;
+    }
+
     public static void showItem(Item item) {
 
         itemView.getChildren().removeAll(itemView.getChildren());
@@ -39,30 +56,32 @@ public class TwoPane {
     }
 
     public static void addItem() {
-        Label typeLabel = new Label("Type d'objet:");
-        ComboBox<String> typeComboBox = new ComboBox<>();
-        typeComboBox.getItems().addAll(
-                Type.getTypeString(Type.GAME),
-                Type.getTypeString(Type.BOOK),
-                Type.getTypeString(Type.TOOL)
-        );
-        typeComboBox.setValue("Jeu");
-        HBox stateBox = new HBox(typeLabel, typeComboBox);
-        stateBox.setPrefWidth(200);
+        if (! Inventory.getInstance().isBeingModified) {
+            Label typeLabel = new Label("Type d'objet:");
+            ComboBox<String> typeComboBox = new ComboBox<>();
+            typeComboBox.getItems().addAll(
+                    Type.getTypeString(Type.GAME),
+                    Type.getTypeString(Type.BOOK),
+                    Type.getTypeString(Type.TOOL)
+            );
+            typeComboBox.setValue("Jeu");
+            HBox stateBox = new HBox(typeLabel, typeComboBox);
+            stateBox.setPrefWidth(200);
 
-        typeComboBox.setOnAction(actionEvent -> {
-            if (typeComboBox.getValue() == "Jeu") {
-                GameView.add(itemView);
-            } else if (typeComboBox.getValue() == "Livre") {
-                BookView.add(itemView);
-            } else if (typeComboBox.getValue() == "Outil") {
-                ToolView.add(itemView);
-            }
-            typeComboBox.setDisable(true);
-        });
+            typeComboBox.setOnAction(actionEvent -> {
+                if (typeComboBox.getValue() == "Jeu") {
+                    GameView.add(itemView);
+                } else if (typeComboBox.getValue() == "Livre") {
+                    BookView.add(itemView);
+                } else if (typeComboBox.getValue() == "Outil") {
+                    ToolView.add(itemView);
+                }
+                Inventory.getInstance().isBeingModified = true;
+                typeComboBox.setDisable(true);
+            });
 
-        itemView.getChildren().removeAll(itemView.getChildren());
-        System.out.println("Fudge");
-        itemView.getChildren().addAll(typeLabel, typeComboBox);
+            itemView.getChildren().removeAll(itemView.getChildren());
+            itemView.getChildren().addAll(typeLabel, typeComboBox);
+        }
     }
 }

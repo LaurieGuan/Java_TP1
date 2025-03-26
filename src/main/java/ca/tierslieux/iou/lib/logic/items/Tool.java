@@ -85,4 +85,12 @@ public class Tool extends Item {
     public Type getType() {
         return Type.TOOL;
     }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 }

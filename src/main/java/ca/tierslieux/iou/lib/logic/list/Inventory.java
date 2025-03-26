@@ -19,6 +19,7 @@ public class Inventory implements Json {
     private boolean modified;
     private String path = null;
     private CustomFile file;
+    public static boolean isBeingModified = false;
 
     private static boolean isInstanciated = false;
     private static Inventory instance;

@@ -1,5 +1,6 @@
 package ca.tierslieux.iou.lib.view;
 
+import ca.tierslieux.iou.lib.logic.items.Item;
 import ca.tierslieux.iou.lib.logic.items.Tool;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -32,6 +33,18 @@ public class ToolView {
                 toolSectionLabel,
                 modelBox, brandBox, modButton
         );
+        modButton.setOnAction(actionEvent -> {
+            Item item = null;
+            if (Table.getSelectedItem() != null) {
+                item = Table.getSelectedItem();
+            } else if (Table.getSelectedItemRestore() != null) {
+                item = Table.getSelectedItem();
+            }
+
+            if (item != null) {
+                TwoPane.modifyItem(item);
+            }
+        });
 
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(10));

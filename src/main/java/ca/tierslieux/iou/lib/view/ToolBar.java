@@ -1,13 +1,11 @@
 package ca.tierslieux.iou.lib.view;
 
+import ca.tierslieux.iou.lib.logic.Regex;
 import ca.tierslieux.iou.lib.logic.items.Item;
 import ca.tierslieux.iou.lib.logic.items.State;
 import ca.tierslieux.iou.lib.logic.items.Type;
 import ca.tierslieux.iou.lib.logic.list.Inventory;
 import ca.tierslieux.iou.lib.logic.list.ItemList;
-import javafx.beans.property.ObjectProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -19,7 +17,8 @@ public class ToolBar {
    private static ToggleButton gameFilter;
    private static ToggleButton bookFilter;
    private static ToggleButton toolFilter;
-   private static ObjectProperty<EventHandler<ActionEvent>> buttonActionCallback;
+   private static ChoiceBox chooseFilter;
+   private static TextField description;
 
 
     public static HBox Generate() {
@@ -37,15 +36,13 @@ public class ToolBar {
         toolFilter.setId("toolFilter");
         Separator addFilterSeperator = new Separator();
         Label filter = new Label("Filtre:");
-        ChoiceBox chooseFilter = new ChoiceBox();
+        chooseFilter = new ChoiceBox();
         chooseFilter.getItems().addAll("", State.getStatusString(State.STORAGE),
                 State.getStatusString(State.STOLEN),
                 State.getStatusString(State.LENT),
                 State.getStatusString(State.BROKEN));
         chooseFilter.setId("chooseFilter");
-        TextField description = new TextField();
-        description.setId("description");
-
+        description = new TextField();
         description.setPromptText("Recherche");
 
         HBox toolBar = new HBox(addItem, removeItem,  restoreItem,
@@ -56,8 +53,9 @@ public class ToolBar {
         toolBar.setPadding(new Insets(10));
 
         setupButtonActionsListControll();
-        setupButtonActionsFilters();
-
+        setupButtonActionTypeFilter();
+        setupButtonActionFilter();
+        setupSearchAction();
 
         return toolBar;
     }
@@ -83,13 +81,13 @@ public class ToolBar {
             }
         });
     }
-    private static void setupButtonActionsFilters() {
+    private static void setupButtonActionTypeFilter() {
         gameFilter.setOnAction(actionEvent -> {
             bookFilter.setSelected(false);
             toolFilter.setSelected(false);
             Inventory inv = Inventory.getInstance();
             if (gameFilter.isSelected()) {
-                filter(Type.GAME, inv);
+                typeFilter(Type.GAME, inv);
             } else {
                 Table.resetItemsList(inv.getItems(), inv.getRestoreItems());
             }
@@ -100,7 +98,7 @@ public class ToolBar {
             gameFilter.setSelected(false);
             toolFilter.setSelected(false);
             if (bookFilter.isSelected()) {
-                filter(Type.BOOK, inv);
+                typeFilter(Type.BOOK, inv);
             } else {
                 Table.resetItemsList(inv.getItems(), inv.getRestoreItems());
             }
@@ -110,14 +108,43 @@ public class ToolBar {
             gameFilter.setSelected(false);
             bookFilter.setSelected(false);
             if (toolFilter.isSelected()) {
-                filter(Type.TOOL, inv);
+                typeFilter(Type.TOOL, inv);
             } else {
                 Table.resetItemsList(inv.getItems(), inv.getRestoreItems());
             }
         });
     }
+    private static void setupButtonActionFilter() {
+        Inventory inv = Inventory.getInstance();
+        chooseFilter.setOnAction(actionEvent -> {
+            State state = switch (chooseFilter.getValue().toString()) {
+                case "En ma possession" -> State.STORAGE;
+                case "Brisé" -> State.BROKEN;
+                case "Volé" -> State.STOLEN;
+                case "Prêté" -> State.LENT;
+                default -> null;
+            };
 
-    private static void filter(Type type, Inventory inv) {
+            if (state != null) {
+                stateFilter(state, inv);
+            } else {
+                Table.resetItemsList(inv.getItems(), inv.getRestoreItems());
+            }
+        });
+
+    }
+
+    private static void setupSearchAction() {
+        description.setOnKeyPressed(keyEvent -> {
+            Inventory inv = Inventory.getInstance();
+            String input = description.getText();
+            if (input != "") {
+                patternSearch(input, inv);
+            }
+        });
+    }
+
+    private static void typeFilter(Type type, Inventory inv) {
         Item[] items =  inv.getItems();
         ItemList filteredList = new ItemList();
         for (Item item: items) {
@@ -136,22 +163,41 @@ public class ToolBar {
         Table.resetItemsList(filteredList.getItemList(), filteredListRestore.getItemList());
     }
 
+    private static void stateFilter(State state, Inventory inv) {
+        Item[] items =  inv.getItems();
+        ItemList filteredList = new ItemList();
+        for (Item item: items) {
+            if (item.getStatus() == state) {
+                filteredList.add(item);
+            }
+        }
 
-    public static void setButtonAction(Runnable action) {
-        gameFilter.setOnAction(actionEvent ->
-                action.run());
+        Item[] itemsRes =  inv.getRestoreItems();
+        ItemList filteredListRestore = new ItemList();
+        for (Item item: itemsRes) {
+            if (item.getStatus() == state) {
+                filteredListRestore.add(item);
+            }
+        }
+        Table.resetItemsList(filteredList.getItemList(), filteredListRestore.getItemList());
     }
 
-    public static ToggleButton getGameFilter() {
-        return gameFilter;
-    }
+    private static void patternSearch(String input, Inventory inv) {
+        Item[] items =  inv.getItems();
+        ItemList filteredList = new ItemList();
+        for (Item item: items) {
+            if (Regex.matchesPattern(item.getDescription(), input)) {
+                filteredList.add(item);
+            }
+        }
 
-    public static ToggleButton getToolFilter() {
-        return toolFilter;
+        Item[] itemsRes =  inv.getRestoreItems();
+        ItemList filteredListRestore = new ItemList();
+        for (Item item: itemsRes) {
+            if (Regex.matchesPattern(item.getDescription(), input)) {
+                filteredListRestore.add(item);
+            }
+        }
+        Table.resetItemsList(filteredList.getItemList(), filteredListRestore.getItemList());
     }
-
-    public static ToggleButton getBookFilter() {
-        return bookFilter;
-    }
-
 }

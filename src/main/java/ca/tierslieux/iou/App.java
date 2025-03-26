@@ -17,6 +17,7 @@ import java.io.IOException;
 
 
 public class App extends Application {
+    private static Scene mainScene;
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -32,7 +33,7 @@ public class App extends Application {
         VBox vbox = new VBox(topMenu, toolBar, split);
         VBox.setVgrow(split, Priority.ALWAYS);
 
-        Scene scene = new Scene(vbox);
+        mainScene = new Scene(vbox);
         stage.setScene(scene);
         stage.setTitle("IOU");
         stage.show();
@@ -50,5 +51,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static Scene getMainScene() {
+        return mainScene;
     }
 }
