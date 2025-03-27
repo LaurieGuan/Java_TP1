@@ -200,4 +200,10 @@ public class ToolBar {
         }
         Table.resetItemsList(filteredList.getItemList(), filteredListRestore.getItemList());
     }
+
+    public static void resetFilters() {
+        bookFilter.setSelected(false);
+        gameFilter.setSelected(false);
+        toolFilter.setSelected(false);
+    }
 }

@@ -42,9 +42,9 @@ public class Inventory implements Json {
         return returnCode;
     }
 
-    public static int createInstanceFromFile(String path) throws FileNotFoundException {
+    public static int createInstanceFromFile(String path) {
         int returnCode = -1;
-        CustomFile listFile = new CustomFile(path, true, FileType.JSON);
+        CustomFile listFile = new CustomFile(path);
         if (!isInstanciated) {
             String json = listFile.read();
             String listName = Regex.listNameMatch(json);
@@ -67,6 +67,7 @@ public class Inventory implements Json {
                 instance.add(item);
             }
             isInstanciated = true;
+            instance.modified = false;
             returnCode = 0;
 
         }
@@ -170,47 +171,39 @@ public class Inventory implements Json {
 
     }
 
-    public void saveAs(String name, String path, boolean force) throws FileAlreadyExists {
-        if (name == "") {
-            name = this.listName;
-        }
-        try {
-            this.file = CustomFile.saveAtFromText(path, toJson(), FileType.JSON);
-            this.path = path;
-        } catch (FileAlreadyExists e) {
-            if (force) {
-                CustomFile.saveAtFromText(path, toJson(), true, FileType.JSON);
+    public void close(boolean force) throws ListNotSaved {
+        if (!force) {
+            if (modified) {
+
+                throw new ListNotSaved();
             } else {
-                throw new FileAlreadyExists();
+                instance = null;
+                isInstanciated = false;
             }
+        } else {
+            instance = null;
+            isInstanciated = false;
         }
+
     }
 
-    public void saveAs(String name, String path) throws FileAlreadyExists {
+    public void saveAs(String name, String path) {
         if (name == "") {
             name = this.listName;
         }
-        try {
-            saveAs(name, path, false);
-        } catch (FileAlreadyExists e) {
-            throw new FileAlreadyExists();
-        }
+        this.file = CustomFile.saveAtFromText(path, toJson(), FileType.JSON);
+        this.path = path;
     }
 
     public void save() {
-        if (path == null) {
-            throw new PathNotSpecified();
-        }
-        if (modified) {
-            String jsonString = toJson();
-            file.write(jsonString, false);
-        }
+        String jsonString = toJson();
+        file.write(jsonString, false);
     }
 
     public void export(String path) {
         CustomFile csvFile;
         String csvString = toCsv();
-        csvFile = CustomFile.saveAtFromText(path, csvString, true, FileType.CSV);
+        csvFile = CustomFile.saveAtFromText(path, csvString, FileType.CSV);
     }
 
     @Override

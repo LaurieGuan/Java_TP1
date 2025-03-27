@@ -7,46 +7,26 @@ public class CustomFile {
     private BufferedWriter writer = null;
     private BufferedReader reader = null;
     private final String filePath;
-    private final FileType fileType;
 
 
     public static CustomFile saveAtFromText(String path, String text, FileType fileType) {
         try {
-            return saveAtFromText(path, text, false, fileType);
+            return saveAtFromText(path, text);
         } catch (FileAlreadyExists e) {
             throw new FileAlreadyExists();
         }
     }
 
-    public static CustomFile saveAtFromText(String path, String text, boolean force, FileType fileType) {
-        if (!path.endsWith(getExtension(fileType))) {
-            path += getExtension(fileType);
-        }
+    public static CustomFile saveAtFromText(String path, String text) {
         File file = new File(path);
 
-        if (file.isFile() && !force) {
-            throw new FileAlreadyExists();
-        }
-
-        CustomFile customFile = new CustomFile(path, force, fileType);
+        CustomFile customFile = new CustomFile(path);
         customFile.write(text, false);
         return customFile;
     }
 
-    public CustomFile(String path, boolean force, FileType fileType) {
+    public CustomFile(String path) {
         this.filePath = path;
-        this.fileType = fileType;
-        checkAndHandleFallback(path, force, fileType);
-    }
-
-    private void checkAndHandleFallback(String path, boolean force, FileType fileType) {
-        File file = new File(path);
-        if (file.isFile() && !force) {
-            throw new FileAlreadyExists();
-        }
-        if (!path.endsWith(getExtension(fileType))) {
-            path += getExtension(fileType);
-        }
     }
 
     private BufferedWriter getWriter(boolean append) {

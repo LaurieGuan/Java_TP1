@@ -42,9 +42,14 @@ public abstract class Item implements Json {
 
     public String getFormattedPrice() {
         String value = Integer.toString(price);
-        String prefix = value.substring(0, value.length() - 2);
-        String suffix = value.substring(value.length() - 2);
-        return String.format("%s,%s$", prefix, suffix);
+        if (value.length() > 1) {
+            String prefix = value.substring(0, value.length() - 2);
+            String suffix = value.substring(value.length() - 2);
+            value = String.format("%s,%s$", prefix, suffix);
+        } else {
+            value = String.format("%s$", value);
+        }
+        return value;
     }
 
     public LocalDate getPurchaseDate() {
@@ -100,6 +105,8 @@ public abstract class Item implements Json {
                 int suffixInt = Integer.parseInt(suffix);
                 intPrice += suffixInt;
             }
+        } else {
+            intPrice = 0;
         }
 
         this.price = intPrice;

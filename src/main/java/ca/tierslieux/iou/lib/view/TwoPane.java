@@ -64,7 +64,7 @@ public class TwoPane {
                     Type.getTypeString(Type.BOOK),
                     Type.getTypeString(Type.TOOL)
             );
-            typeComboBox.setValue("Jeu");
+            typeComboBox.setValue("");
             HBox stateBox = new HBox(typeLabel, typeComboBox);
             stateBox.setPrefWidth(200);
 
@@ -76,8 +76,8 @@ public class TwoPane {
                 } else if (typeComboBox.getValue() == "Outil") {
                     ToolView.add(itemView);
                 }
-                Inventory.getInstance().isBeingModified = true;
                 typeComboBox.setDisable(true);
+                Inventory.getInstance().isBeingModified = true;
             });
 
             itemView.getChildren().removeAll(itemView.getChildren());

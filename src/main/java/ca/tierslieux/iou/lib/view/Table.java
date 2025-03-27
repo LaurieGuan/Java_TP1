@@ -1,6 +1,7 @@
 package ca.tierslieux.iou.lib.view;
 
 import ca.tierslieux.iou.lib.logic.items.Item;
+import ca.tierslieux.iou.lib.logic.list.Inventory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -88,8 +89,9 @@ public class Table {
             } else if (newValue != null && listType == listType.RESTORE) {
                 selectedItemRestore = newValue;
             }
-
-            TwoPane.showItem(selectedItem);
+            if (!Inventory.isBeingModified) {
+                TwoPane.showItem(selectedItem);
+            }
         });
 
         return tempTable;
@@ -106,7 +108,9 @@ public class Table {
         }
 
         table.setItems(observableList);
+        table.refresh();
         tableRestore.setItems(observableListRestore);
+        tableRestore.refresh();
     }
 
     public static Item getSelectedItem() {

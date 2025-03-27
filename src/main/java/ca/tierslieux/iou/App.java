@@ -21,20 +21,20 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Inventory.createInstanceFromFile("src/main/resources/ca/tierslieux/iou/TestListe.json");
+        Inventory.createInstance("liste");
         Inventory inv = Inventory.getInstance();
 
         HBox split = new HBox();
 
-        Node topMenu = TopMenu.Generate();
+        Node topMenu = TopMenu.Generate(stage);
         Node toolBar = ToolBar.Generate();
         TwoPane.GeneratePanel(split, inv.getItems(), inv.getRestoreItems());
 
         VBox vbox = new VBox(topMenu, toolBar, split);
         VBox.setVgrow(split, Priority.ALWAYS);
 
-        mainScene = new Scene(vbox);
-        stage.setScene(scene);
+        mainScene = new Scene(vbox, 1000, 1000);
+        stage.setScene(mainScene);
         stage.setTitle("IOU");
         stage.show();
     }
